@@ -5,26 +5,27 @@ sys.path.append('../dialectdetect-master/src>')
 import getsplit
 
 
-from keras import utils
+from tensorflow.keras import utils
 import accuracy
 import multiprocessing
 import librosa
 import numpy as np
 from sklearn.model_selection import train_test_split
+from sklearn.utils import shuffle
 from sklearn.preprocessing import MinMaxScaler
 
-from keras.models import Sequential
-from keras.layers.core import Dense, Dropout, Flatten
-from keras.layers.convolutional import MaxPooling2D, Conv2D
-from keras.preprocessing.image import ImageDataGenerator
-from keras.callbacks import EarlyStopping, TensorBoard
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Flatten
+from tensorflow.keras.layers import MaxPool2D, Conv2D
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
 
 DEBUG = True
 SILENCE_THRESHOLD = .01
 RATE = 24000
 N_MFCC = 13
 COL_SIZE = 30
-EPOCHS = 10 #35#250
+EPOCHS = 50 #10 #35#250
 
 def to_categorical(y):
     '''
@@ -33,10 +34,25 @@ def to_categorical(y):
     :return (numpy array): binary class matrix
     '''
     lang_dict = {}
+    print(set(y))
     for index,language in enumerate(set(y)):
         lang_dict[language] = index
     y = list(map(lambda x: lang_dict[x],y))
     return utils.to_categorical(y, len(lang_dict))
+
+def to_categorical_v2(y_train, y_test):
+    '''
+    Converts list of languages into a binary class matrix
+    :param y (list): list of languages
+    :return (numpy array): binary class matrix
+    '''
+    lang_dict = {}
+    print(set(y_train.append(y_test)))
+    for index,language in enumerate(set(y_train.append(y_test))):
+        lang_dict[language] = index
+    y_train = list(map(lambda x: lang_dict[x],y_train))
+    y_test = list(map(lambda x: lang_dict[x],y_test))
+    return utils.to_categorical(y_train, len(lang_dict)), utils.to_categorical(y_test, len(lang_dict))
 
 def get_wav(language_num):
     '''
@@ -120,7 +136,7 @@ def create_segmented_mfccs(X_train):
     return(segmented_mfccs)
 
 
-def train_model(X_train,y_train,X_validation,y_validation, batch_size=128): #64
+def train_model(X_train,y_train,X_validation,y_validation, batch_size=32): #32 #64
     '''
     Trains 2D convolutional neural network
     :param X_train: Numpy array of mfccs
@@ -138,11 +154,17 @@ def train_model(X_train,y_train,X_validation,y_validation, batch_size=128): #64
     # input image dimensions to feed into 2D ConvNet Input layer
     input_shape = (rows, cols, 1)
     X_train = X_train.reshape(X_train.shape[0], rows, cols, 1 )
+
+    # This breaks the implementation, so reshaping to match X_train
     X_validation = X_validation.reshape(X_validation.shape[0],val_rows,val_cols,1)
+    # X_validation = X_validation.reshape(X_validation.shape[0], rows, cols, 1 )
 
 
     print('X_train shape:', X_train.shape)
     print(X_train.shape[0], 'training samples')
+
+    print('X_validation shape:', X_validation.shape)
+    print(X_validation.shape[0], 'validation samples')
 
     model = Sequential()
 
@@ -150,9 +172,10 @@ def train_model(X_train,y_train,X_validation,y_validation, batch_size=128): #64
                      data_format="channels_last",
                      input_shape=input_shape))
 
-    model.add(MaxPooling2D(pool_size=(2, 2)))
+    # model.add(MaxPool2D(pool_size=(2, 2)))
     model.add(Conv2D(64,kernel_size=(3,3), activation='relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
+    # model.add(MaxPool2D(pool_size=(2, 2)))
+    model.add(Conv2D(32,kernel_size=(3,3), activation='relu'))
     model.add(Dropout(0.25))
 
     model.add(Flatten())
@@ -165,7 +188,7 @@ def train_model(X_train,y_train,X_validation,y_validation, batch_size=128): #64
                   metrics=['accuracy'])
 
     # Stops training if accuracy does not change at least 0.005 over 10 epochs
-    es = EarlyStopping(monitor='acc', min_delta=.005, patience=10, verbose=1, mode='auto')
+    es = EarlyStopping(monitor='accuracy', min_delta=.005, patience=10, verbose=1, mode='auto')
 
     # Creates log file for graphical interpretation using TensorBoard
     tb = TensorBoard(log_dir='../logs', histogram_freq=0, batch_size=32, write_graph=True, write_grads=True,
@@ -176,8 +199,8 @@ def train_model(X_train,y_train,X_validation,y_validation, batch_size=128): #64
     datagen = ImageDataGenerator(width_shift_range=0.05)
 
     # Fit model using ImageDataGenerator
-    model.fit_generator(datagen.flow(X_train, y_train, batch_size=batch_size),
-                        steps_per_epoch=len(X_train) / 32
+    model.fit(datagen.flow(X_train, y_train, batch_size=batch_size),
+                        steps_per_epoch=len(X_train) / batch_size#batch_size #8 #32
                         , epochs=EPOCHS,
                         callbacks=[es,tb], validation_data=(X_validation,y_validation))
 
@@ -227,6 +250,7 @@ if __name__ == '__main__':
 
     # Train test split
     X_train, X_test, y_train, y_test = getsplit.split_people(filtered_df)
+    print(len(X_train) + len(X_test))
 
     # Get statistics
     train_count = Counter(y_train)
@@ -241,8 +265,13 @@ if __name__ == '__main__':
     acc_to_beat = test_count.most_common(1)[0][1] / float(np.sum(list(test_count.values())))
 
     # To categorical
-    y_train = to_categorical(y_train)
-    y_test = to_categorical(y_test)
+    # y_train = to_categorical(y_train)
+    # y_test = to_categorical(y_test)
+
+    y_train, y_test = to_categorical_v2(y_train, y_test)
+
+    print(y_train[0])
+    print(y_test[0])
 
     # Get resampled wav files using multiprocessing
     if DEBUG:
@@ -260,9 +289,18 @@ if __name__ == '__main__':
     # Create segments from MFCCs
     X_train, y_train = make_segments(X_train, y_train)
     X_validation, y_validation = make_segments(X_test, y_test)
+    # X_validation, y_validation = make_segments(X_test, y_train)
+
+    # Attempt to replace this with a new version that uses same y_train for both
 
     # Randomize training segments
-    X_train, _, y_train, _ = train_test_split(X_train, y_train, test_size=0)
+    # X_train, _, y_train, _ = train_test_split(X_train, y_train, test_size=0.0)
+    X_train, y_train = shuffle(X_train, y_train)
+
+    print("y_train shape:", len(y_train[0]))
+    print("y_train:", y_train[0])
+    print("y_validation shape:", len(y_validation[0]))
+    print("y_validation:", y_validation[0])
 
     # Train model
     model = train_model(np.array(X_train), np.array(y_train), np.array(X_validation),np.array(y_validation))
@@ -275,8 +313,11 @@ if __name__ == '__main__':
     print('Testing samples:', test_count)
     print('Accuracy to beat:', acc_to_beat)
     print('Confusion matrix of total samples:\n', np.sum(accuracy.confusion_matrix(y_predicted, y_test),axis=1))
+    # print('Confusion matrix of total samples:\n', np.sum(accuracy.confusion_matrix(y_predicted, y_train),axis=1))
     print('Confusion matrix:\n',accuracy.confusion_matrix(y_predicted, y_test))
+    # print('Confusion matrix:\n',accuracy.confusion_matrix(y_predicted, y_train))
     print('Accuracy:', accuracy.get_accuracy(y_predicted,y_test))
+    # print('Accuracy:', accuracy.get_accuracy(y_predicted,y_train))
 
     # Save model
     save_model(model, model_filename)

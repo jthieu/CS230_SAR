@@ -1,3 +1,4 @@
+import tqdm
 import pandas as pd
 import urllib.request
 import os
@@ -40,7 +41,7 @@ class GetAudio:
 
         counter = 0
 
-        for lang_num in self.audio_df['language_num']:
+        for lang_num in tqdm.tqdm(self.audio_df['language_num']):
             if not os.path.exists(self.destination_folder +'{}.wav'.format(lang_num)):
                 if self.debug:
                     print('downloading {}'.format(lang_num))

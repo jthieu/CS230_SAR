@@ -37,18 +37,27 @@ def filter_df(df):
     :return (DataFrame): Filtered DataFrame
     '''
 
-    arabic = df[df.native_language == 'arabic']
-    mandarin = df[df.native_language == 'mandarin']
-    english = df[df.native_language == 'english']
+    arabic = df[df.native_language_rev.str.contains('arabic')]
+    mandarin = df[df.native_language_rev.str.contains('mandarin')]
+    english = df[df.native_language_rev.str.contains('english')][:125]
 
-    mandarin = mandarin[mandarin.length_of_english_residence < 10]
-    arabic = arabic[arabic.length_of_english_residence < 10]
+    mandarin = mandarin[mandarin.length_of_english_residence < 10][:125]
+    arabic = arabic[arabic.length_of_english_residence < 10][:125]
 
-    df = df.append(english)
-    df = df.append(arabic)
-    df = df.append(mandarin)
+    print(english.shape)
+    print(mandarin.shape)
+    print(arabic.shape)
 
-    return df
+    # df = df.append(english)
+    # df = df.append(arabic)
+    # df = df.append(mandarin)
+
+    df_new = english.append(mandarin).append(arabic)
+    # print(df_new.info(verbose=True))
+
+    # df_new['birth_place'].apply(lambda col: col['birth_place'] = col['birth_place'].str[-1])
+
+    return df_new
 
 def split_people(df,test_size=0.2):
     '''
@@ -59,7 +68,7 @@ def split_people(df,test_size=0.2):
     '''
 
 
-    return train_test_split(df['language_num'],df['native_language'],test_size=test_size,random_state=1234)
+    return train_test_split(df['language_num'],df['native_language_rev'],test_size=test_size) # random_state = 1234
 
 
 if __name__ == '__main__':
