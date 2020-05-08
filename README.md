@@ -57,6 +57,9 @@ Note- Run all the python files as described below on the terminal
 
 Command: `python fromwebsite.py bio_metadata.csv mandarin english arabic`
 
+To get all of the meta data from the website and saved to bio_meta_new_scrape.csv run the following command
+Command: `python fromwebsite.py bio_meta_newscrape.csv all_native_languages.csv`
+
 2. Run getaudio.py to download audio files to the audio directory. All audio files listed in bio_metadata.csv will be downloaded.
 
 Command: `python getaudio.py bio_metadata.csv`
