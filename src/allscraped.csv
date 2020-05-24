@@ -358,7 +358,6 @@ http://accent.gmu.edu/browse_language.php?function=detail&speakerid=2616,bulgari
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=2691,bulgarian20,female,"['kyustendil', 'bulgaria']",bulgarian (bul),"['russian', 'french', '']","['47,', 'female', '']",16,naturalistic,['usa'],20,47
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=758,burmese1,female,"['yangon', 'myanmar']",burmese (mya),['none'],"['35,', 'female', '']",11,academic,['usa'],1.5,35
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=1568,burmese2,male,"['yangon', 'myanmar']",burmese (mya),"['chinese', '']","['29,', 'male', '']",7,naturalistic,['singapore'],5,29
-http://accent.gmu.edu/browse_language.php?function=detail&speakerid=1953,camerooncreoleenglish1,male,"['buea', 'cameroon']",cameroon creole english (wes),['none'],"['18,', 'male', '']",10,academic,['usa'],8,18
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=45,cantonese1,female,"['hong kong', 'china']",cantonese (yue),"['mandarin', '']","['22,', 'female', '']",12,academic,['usa'],1,22
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=46,cantonese2,male,"['hong kong', 'china']",cantonese (yue),"['mandarin', '']","['20,', 'male', '']",13,academic,['usa'],0.3,20
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=47,cantonese3,male,"['hong kong', 'china']",cantonese (yue),"['french', 'mandarin', '']","['22,', 'male', '']",6,academic,['uk'],0.1,22
@@ -1956,7 +1955,6 @@ http://accent.gmu.edu/browse_language.php?function=detail&speakerid=2007,lao3,ma
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=250,latvian1,female,"['riga', 'latvia']",latvian (lav),"['russian', '']","['24,', 'female', '']",13,academic,['usa'],0.2,24
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=964,latvian2,female,"['riga', 'latvia']",latvian (lav),"['hindi', '']","['70,', 'female', '']",11,naturalistic,"['india', 'usa']",57,70
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=1845,latvian3,female,"['riga', 'latvia']",latvian (lav),['none'],"['19,', 'female', '']",5,academic,['usa'],5,19
-http://accent.gmu.edu/browse_language.php?function=detail&speakerid=1771,liberian_pidgin_english1,female,"['monrovia', 'liberia']",liberian pidgin english (lir),['none'],"['28,', 'female', '']",14,naturalistic,"['liberia', 'usa']",28,28
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=2141,liberian_pidgin_english2,female,"['monrovia', 'liberia']",liberian pidgin english (lir),"['igbo', '']","['38,', 'female', '']",5,academic,['usa'],23,38
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=1158,lingala1,male,"['kinshasa', 'democratic republic of congo']",lingala (lin),"['french', 'kikongo', 'mbala', 'kiswahili', 'tshiluba', '']","['37,', 'male', '']",30,naturalistic,['usa'],7,37
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=251,lithuanian1,female,"['klaipeda', 'lithuania']",lithuanian (lit),"['russian', 'german', '']","['27,', 'female', '']",24,naturalistic,['usa'],3,27
@@ -2732,7 +2730,6 @@ http://accent.gmu.edu/browse_language.php?function=detail&speakerid=2601,telugu1
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=2603,telugu13,male,"['hyderabad', 'india']",telugu (tel),"['hindi', '']","['25,', 'male', '']",5,academic,['usa'],4,25
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=2848,telugu14,female,"['tenali', 'india']",telugu (tel),"['hindi', '']","['19,', 'female', '']",17,academic,['usa'],2,19
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=1905,temne1,male,"['kono', 'sierra leone']",temne (tem),"['spanish', 'french', '']","['21,', 'male', '']",10,academic,['usa'],9,21
-http://accent.gmu.edu/browse_language.php?function=detail&speakerid=1001,tetun-dili1,female,"['baucau', 'timor-leste']",tetun-dili (tdt),"['indonesian', 'portuguese', '']","['37,', 'female', '']",25,academic,['usa'],13,37
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=371,thai1,female,"['khon kaen', 'thailand']",thai (tha),['none'],"['25,', 'female', '']",10,academic,['usa'],1,25
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=372,thai2,male,"['chiang mai', 'thailand']",thai (tha),['none'],"['20,', 'male', '']",10,academic,"['new zealand,usa']",2,20
 http://accent.gmu.edu/browse_language.php?function=detail&speakerid=373,thai3,male,"['bangkok', 'thailand']",thai (tha),['none'],"['22,', 'male', '']",4,academic,['usa'],0.25,22
