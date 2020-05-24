@@ -3,6 +3,7 @@ import sys
 from sklearn.model_selection import train_test_split
 
 def filter_df(df):
+    return df
     '''
     Function to filter audio files based on df columns
     df column options: [age,age_of_english_onset,age_sex,birth_place,english_learning_method,
@@ -29,7 +30,6 @@ def filter_df(df):
     # print(df_new.info(verbose=True))
 
     # df_new['birth_place'].apply(lambda col: col['birth_place'] = col['birth_place'].str[-1])
-    return df
 
 def split_people(df,test_size=0.2):
     '''
