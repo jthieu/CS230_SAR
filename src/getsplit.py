@@ -57,7 +57,7 @@ def filter_df(df):
 
     # df_new['birth_place'].apply(lambda col: col['birth_place'] = col['birth_place'].str[-1])
 
-    return df_new
+    return df
 
 def split_people(df,test_size=0.2):
     '''
