@@ -30,7 +30,7 @@ def filter_df(df):
 
     # df_new['birth_place'].apply(lambda col: col['birth_place'] = col['birth_place'].str[-1])
 
-    return df[df.native_language_rev.str.contains('english')][:50]
+    return df[df.native_language.str.contains('english')][:50]
 
 def split_people(df,test_size=0.2):
     '''
@@ -41,7 +41,7 @@ def split_people(df,test_size=0.2):
     '''
 
 
-    return train_test_split(df['language_num'],df['native_language_rev'],test_size=test_size) # random_state = 1234
+    return train_test_split(df['language_num'],df['birth_place'],test_size=test_size) # random_state = 1234
 
 
 if __name__ == '__main__':
