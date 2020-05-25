@@ -83,8 +83,37 @@ def get_f1_score(y_predicted, y_test):
 
     f1s = [(2*precisions[i]*recalls[i])/(precisions[i]+recalls[i]) if (precisions[i]+recalls[i]) > 0 else 0 for i in range(c_matrix.shape[0]) ]
 
-    return (np.sum(f1s)/c_matrix.shape[0])
+    return np.sum(f1s) / c_matrix.shape[0]
 
+def get_micro_f1_score(y_predicted, y_test): 
+    '''
+    Get F1 Score
+    '''
+
+    c_matrix = confusion_matrix(y_predicted,y_test)
+    precisions = np.sum(c_matrix, axis = 0)
+    for i,p in enumerate(precisions):
+        if p == 0:
+            precisions[i] = 1
+    # print("Precisions:", precisions)
+    recalls = np.sum(c_matrix, axis = 1)
+    for i,r in enumerate(recalls):
+        if r == 0:
+            recalls[i] = 1
+    # print("Recalls:", recalls)
+    trues = np.array([c_matrix[i,i] for i in range(c_matrix.shape[0])])
+    # print("Trues:", trues)
+    precisions = np.divide(trues, precisions)
+    # print("Updated P's:", precisions)
+    recalls = np.divide(trues, recalls)
+    # print("Updated R's:", recalls)
+
+    fractions_of_trues = trues/np.sum(trues)
+
+    f1s = [(2*precisions[i]*recalls[i])/(precisions[i]+recalls[i]) if (precisions[i]+recalls[i]) > 0 else 0 for i in range(c_matrix.shape[0]) ]
+
+    return np.dot(f1s, fractions_of_trues) / len(fractions_of_trues[fractions_of_trues != 0])
+    
 if __name__ == '__main__':
     pass
 

@@ -318,6 +318,8 @@ if __name__ == '__main__':
     # print('Confusion matrix:\n',accuracy.confusion_matrix(y_predicted, y_train))
     print('Accuracy:', accuracy.get_accuracy(y_predicted,y_test))
     # print('Accuracy:', accuracy.get_accuracy(y_predicted,y_train))
+    print('F1 Score:', accuracy.get_f1_score(y_predicted, y_test))
+    print('Micro F1 Score:', accuracy.get_micro_f1_score(y_predicted,y_test))
 
     # Save model
     save_model(model, model_filename)
