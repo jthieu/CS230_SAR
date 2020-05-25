@@ -25,7 +25,7 @@ SILENCE_THRESHOLD = .01
 RATE = 24000
 N_MFCC = 13
 COL_SIZE = 30
-EPOCHS = 50 #10 #35#250
+EPOCHS = 100 #10 #35#250
 
 def to_categorical(y):
     '''
@@ -172,9 +172,9 @@ def train_model(X_train,y_train,X_validation,y_validation, batch_size=32): #32 #
                      data_format="channels_last",
                      input_shape=input_shape))
 
-    # model.add(MaxPool2D(pool_size=(2, 2)))
+    model.add(MaxPool2D(pool_size=(2, 2)))
     model.add(Conv2D(64,kernel_size=(3,3), activation='relu'))
-    # model.add(MaxPool2D(pool_size=(2, 2)))
+    model.add(MaxPool2D(pool_size=(2, 2)))
     model.add(Conv2D(32,kernel_size=(3,3), activation='relu'))
     model.add(Dropout(0.25))
 
