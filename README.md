@@ -67,6 +67,15 @@ Command: `python trainmodel.py nativeenglish.csv milestonemodel`
 
   * Running trainmodel.py will save the trained model as milestonemodel.h5 in the model directory and output the results to the console.
   * This script will also save a TensorBoard log file into the logs directory.
+  
+####### To add/change performance metric calculations
+
+1. Open accuracy.py
+	* There you should see several functions such as confusion matrix, accuracy, and F1 score
+	* Make the changes that you'd like, then make sure to add a line invoking the function in trainmodel.py
+	
+  * Note: Micro-F1 takes the F1 score as the dot product over all test classes as share_of_class_in_test_set * F1_score divided by the total number of non-zero test classes. This is because for certain distributions, classes will be included in the confusion matrix even though they don't appear in the test class, so needlessly detract from the F1 score.
+	
 
 7. Performance
 
