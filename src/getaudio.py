@@ -43,11 +43,13 @@ class GetAudio:
 
         for lang_num in tqdm.tqdm(self.audio_df['language_num']):
             if not os.path.exists(self.destination_folder +'{}.wav'.format(lang_num)):
-                if self.debug:
-                    print('downloading {}'.format(lang_num))
-                (filename, headers) = urllib.request.urlretrieve(self.url.format(lang_num))
-                sound = AudioSegment.from_mp3(filename)
-                sound.export('../' + self.destination_folder + "{}.wav".format(lang_num), format="wav")
+                print('\ndownloading {}'.format(lang_num))
+                try:
+                  (filename, headers) = urllib.request.urlretrieve(self.url.format(lang_num))
+                  sound = AudioSegment.from_mp3(filename)
+                  sound.export('../' + self.destination_folder + "{}.wav".format(lang_num), format="wav")
+                except:
+                  print('******************FAILED************8')
                 counter += 1
 
         return counter
@@ -60,4 +62,3 @@ if __name__ == '__main__':
     csv_file = sys.argv[1]
     ga = GetAudio(csv_filepath=csv_file)
     ga.get_audio()
-

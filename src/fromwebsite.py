@@ -100,18 +100,26 @@ def create_dataframe(languages):
         print('loading finished')
 
     df['birth_place'] = bio_rows.iloc[:,0]
+    #print(df['birth_place'])#for debugging
     df['native_language'] = bio_rows.iloc[:,1]
+    #print(df['native_language'])#for debugging
     df['other_languages'] = bio_rows.iloc[:,2]
     df['age_sex'] = bio_rows.iloc[:,3]
     df['age_of_english_onset'] = bio_rows.iloc[:,4]
     df['english_learning_method'] = bio_rows.iloc[:,5]
     df['english_residence'] = bio_rows.iloc[:,6]
+    #print(df['english_residence'])#for debugging
     df['length_of_english_residence'] = bio_rows.iloc[:,7]
 
-    df['birth_place'] = df['birth_place'].apply(lambda x: x[:-6].split(' ')[-2:])
-    # print(df['birth_place'])
-    # df['birth_place'] = lambda x: x[:-6].split(' ')[2:], df['birth_place']
-    df['native_language'] = df['native_language'].apply(lambda x: x.split(' ')[2])
+    ###### EDITED #######
+    df['birth_place'] = df['birth_place'].apply(lambda x: x[:-6].replace('birth place: ','').split(', '))
+    #print(df['birth_place'])
+    
+    #df['native_language'] = df['native_language'].apply(lambda x: x.split(' ')[2])
+    df['native_language'] = df['native_language'].apply(lambda x: x.replace('native language: ',''))
+    #df['native_language'] = df['native_language'].apply(lambda x: x.replace('native language: ','').split(', '))
+    #print(df['native_language'])#for debugging
+    ########################
     # print(df['native_language'])
     # df['native_language'] = lambda x: x.split(' ')[2], df['native_language']
     df['other_languages'] = df['other_languages'].apply(lambda x: x.split(' ')[2:])
@@ -127,7 +135,11 @@ def create_dataframe(languages):
     df['english_learning_method'] = df['english_learning_method'].apply(lambda x: x.split(' ')[-1])
     # print(df['english_learning_method'])
     # df['english_residence'] = lambda x: x.split(' ')[2:], df['english_residence']
-    df['english_residence'] = df['english_residence'].apply(lambda x: x.split(' ')[2:])
+    ####### EDITED #######
+    #df['english_residence'] = df['english_residence'].apply(lambda x: x.split(' ')[2:])
+    df['english_residence'] = df['english_residence'].apply(lambda x: x.replace('english residence: ', '').split(', '))
+    #print(df['english_residence'])
+    ######################
     # print(df['english_residence'])
     # df['length_of_english_residence'] = lambda x: float(x.split(' ')[-2]), df['length_of_english_residence']
     df['length_of_english_residence'] = df['length_of_english_residence'].apply(lambda x: float(x.split(' ')[-2]))
@@ -148,9 +160,17 @@ if __name__ == '__main__':
     # Set destination file
     destination_file = sys.argv[1]
 
+    ####### EDIDTED ###########
+
+    # Set source of languages file 
+    languages_file = sys.argv[2]
+
     # If no language arguments, use 'mandarin' as default
     try:
-        languages = sys.argv[2:]
+        #languages = sys.argv[2:] #original
+        languages = pd.read_csv(languages_file, sep = ',', header = 0)
+        languages = list(languages['Language'])
+        #print(languages)
     except:
         languages = ['mandarin']
         pass
